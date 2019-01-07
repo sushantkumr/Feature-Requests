@@ -3,7 +3,7 @@ html, body{
 }
 
 .s-m-b-2 {
-    margin-bottom: 10px;
+    margin-bottom: 25px !important;
 }
 
 body {
@@ -11,4 +11,11 @@ body {
     font-weight: 400;
     background-color: #f1f1ea;
     padding:2em;
+}
+
+@media (min-width: 1200px) {
+	.requestCard {
+	    width: 700px;
+        margin-left: 350px;
+	}
 }

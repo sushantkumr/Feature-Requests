@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from lib.models import db, utils
 import logging
 from importlib import import_module
 app = Flask(__name__)
@@ -47,13 +48,17 @@ def ajaxHandler():
 
     try:
         data = function(**kwargs)
+        db.db_session.commit()
         return jsonify({'success': True, 'data': data})
 
-    except:
+    except Exception as e:
+        # TODO: Log errors
+        # Discard all changes if an error occurs
+        db.db_session.rollback()
         return jsonify({
-            'message': 'Something failed. Please contact support',
-            'success': False
-            }), BAD_REQUEST
+            'success': False,
+            'message': 'Unhandled exception, session rolled back.'
+        }), BAD_REQUEST
 
 
 if __name__ == '__main__':

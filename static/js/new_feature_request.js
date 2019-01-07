@@ -12,16 +12,15 @@ $(document).ready(function() {
         self.productAreaList = ko.observableArray(['Billing', 'Policies', 'Claims', 'Reports']);
         self.clientList = ko.observableArray(['Client A', 'Client B', 'Client C']);
 
-        const data = {
-                    title: self.newTitle(),
-                    description: self.newDescription(),
-                    client: self.newClient(),
-                    priority: self.newPriority(),
-                    target_date: self.newTargetDate(),
-                    product_area: self.newProductArea()
-        };
-
         self.submitRequest = function() {
+            const data = {
+                title: self.newTitle(),
+                description: self.newDescription(),
+                client: self.newClient(),
+                priority: self.newPriority(),
+                target_date: self.newTargetDate(),
+                product_area: self.newProductArea()
+            };
             ec.utils.ajax('feature_requests', 'views', 'submit_feature_requests', data, function(response) {
                 if (!response.success) {
                     ec.utils.errorHandler(response);

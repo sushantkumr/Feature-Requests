@@ -2,12 +2,9 @@
 <script type="text/javascript" src="/static/js/home.js"></script>
 
     <body>
-    	<div class="navbar">
-        	<div class="navbar-inner">
-            	<p>Feature Requests</p>
-        	</div>
-    	</div>
-        <a href="/new_feature_request"><button class="btn btn-primary s-m-b-2">Request new feature</button></a>
+        <div >
+            <a href="/new_feature_request" class="btn btn-primary pull-right s-m-b-2" role="button">Request new feature</a>
+        </div>
         <div id="main" class="container">
 	        <table class="table table-striped table-hover table-bordered">
                 <thead>
@@ -29,7 +26,7 @@
 		                <td data-bind="text: description"></td>
 		                <td data-bind="text: client"></td>
 		                <td data-bind="text: client_priority"></td>
-		                <td data-bind="text: target_date"></td>
+		                <td data-bind="text: moment(target_date).format('MMM DD YYYY')"></td>
 		                <td data-bind="text: product_area"></td>  
 		            </tr>
 	        	</tbody>
