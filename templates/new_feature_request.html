@@ -1,0 +1,46 @@
+{% include 'common-header.html' %}
+<script type="text/javascript" src="/static/js/new_feature_request.js"></script>
+
+    <body>
+    	<div class="navbar">
+        	<p>Feature Requests</p>
+    	</div>
+        <div class="container">
+            <h3>New Feature Request</h3>
+            <form>
+                <div class="form-group">
+                    <div class="s-m-b-2 ">
+                        <label>Title</label>
+                        <input id="title" class="form-control" type="text" data-bind="textinput: newTitle" />
+                    </div>
+                    <div class="s-m-b-2 ">
+                        <label>Description</label>
+                        <textarea id="description" class="form-control" rows="5" cols="75" placeholder="Enter Description here" data-bind="textinput: newDescription"></textarea>
+                    </div>             
+                    <div class="s-m-b-2 ">
+                        <label>Client</label>
+                        <select class="form-control" data-bind="options: clientList,
+                                                            value: newClient,
+                                                            optionsCaption: 'Choose the Client...'
+                                                            "></select>
+                    </div>
+                    <div class="s-m-b-2 ">
+                        <label>Priority</label>
+                        <input id="priority" class="form-control" type="text" data-bind="textinput: newPriority" />
+                    </div>
+                    <div class="s-m-b-2">
+                        <label>Target date</label>
+                        <input id="targetDate" class="form-control" data-bind="datePicker : targetdate" type="date">
+                    </div>
+                    <div class="s-m-b-2 ">
+                        <label for="newProductArea">Product Area</label>
+                        <select class="form-control" data-bind="options: productAreaList,
+                                                                value: newProductArea,
+                                                                optionsCaption: 'Choose the Product Area...'
+                                                                "></select>                    
+                    </div>
+                </div>            
+            </form>
+        </div>
+    </body>
+</html>

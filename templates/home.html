@@ -1,0 +1,41 @@
+{% include 'common-header.html' %}
+<script type="text/javascript" src="/static/js/home.js"></script>
+
+    <body>
+    	<div class="navbar">
+        	<div class="navbar-inner">
+            	<p>Feature Requests</p>
+        	</div>
+    	</div>
+        <a href="/new_feature_request"><button class="btn btn-primary s-m-b-2">Request new feature</button></a>
+        <div id="main" class="container">
+	        <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Client</th>
+                        <th>Priority</th>
+                        <th>Target Date</th>
+                        <th>Product Area</th>
+                    </tr>
+                </thead>
+            	<!-- ko if: featureRequests().length > 0 -->
+                <tbody data-bind="foreach: featureRequests">
+		            <tr>
+		                <td data-bind="text: id"></td>
+		                <td data-bind="text: title"></td>
+		                <td data-bind="text: description"></td>
+		                <td data-bind="text: client"></td>
+		                <td data-bind="text: client_priority"></td>
+		                <td data-bind="text: target_date"></td>
+		                <td data-bind="text: product_area"></td>  
+		            </tr>
+	        	</tbody>
+            	<!-- /ko -->
+	        </table>
+	    </div>
+    </div>
+    </body>
+</html>

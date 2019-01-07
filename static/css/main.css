@@ -1,0 +1,14 @@
+html, body{
+    height: 100%;
+}
+
+.s-m-b-2 {
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;*;
+    font-weight: 400;
+    background-color: #f1f1ea;
+    padding:2em;
+}
