@@ -16,6 +16,7 @@
                         <th>Priority</th>
                         <th>Target Date</th>
                         <th>Product Area</th>
+                        <th>Update</th>
                     </tr>
                 </thead>
             	<!-- ko if: featureRequests().length > 0 -->
@@ -27,7 +28,9 @@
 		                <td data-bind="text: client"></td>
 		                <td data-bind="text: client_priority"></td>
 		                <td data-bind="text: moment(target_date).format('MMM DD YYYY')"></td>
-		                <td data-bind="text: product_area"></td>  
+                        <td data-bind="text: product_area"></td>    
+                        <td><a data-toggle="modal" data-target="#editModal" href="#" data-edit="{{id}}" class="editBtn">Edit</a> | <a data-bind="attr: {href: '/delete/' + id}">Delete</a></td>
+
 		            </tr>
 	        	</tbody>
             	<!-- /ko -->

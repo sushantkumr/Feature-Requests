@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from lib.models.featurerequests import FeatureRequest
 from lib.models import db, utils
 import logging
 from importlib import import_module
@@ -18,6 +19,13 @@ def root():
 @app.route('/new_feature_request', methods=['GET', 'POST'])
 def new_feature_request():
     return render_template('new_feature_request.html')
+
+
+@app.route("/delete/<int:feature_request_id>", methods=['POST', 'GET'])
+def delete_request(feature_request_id):
+    FeatureRequest.query.filter(FeatureRequest.id == feature_request_id).delete()
+    db.db_session.commit()
+    return render_template('home.html')
 
 
 @app.route('/ajax', methods=['GET', 'POST'])
