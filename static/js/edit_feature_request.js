@@ -17,7 +17,7 @@ $(document).ready(function() {
             self.id(ec.utils.getQueryStringValue('id'));
 
             const data = {
-                'id': self.id();
+                'id': self.id()
             }
 
             ec.utils.ajax('feature_requests', 'views', 'get_feature_request_details', data, function(response) {
@@ -48,7 +48,7 @@ $(document).ready(function() {
                 target_date: self.newTargetDate(),
                 product_area: self.newProductArea()
             };
-            ec.utils.ajax('feature_requests', 'views', 'submit_feature_requests', data, function(response) {
+            ec.utils.ajax('feature_requests', 'views', 'update_feature_requests', data, function(response) {
                 if (!response.success) {
                     ec.utils.errorHandler(response);
                     return;
