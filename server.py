@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from lib.models.featurerequests import FeatureRequest
-from lib.models import db, utils
+from lib.models import db
 import logging
 from importlib import import_module
 app = Flask(__name__)
@@ -26,6 +26,11 @@ def delete_request(feature_request_id):
     FeatureRequest.query.filter(FeatureRequest.id == feature_request_id).delete()
     db.db_session.commit()
     return render_template('home.html')
+
+
+@app.route("/edit/<int:feature_request_id>", methods=['POST', 'GET'])
+def edit_request(feature_request_id):
+    return render_template('edit_feature_request.html')
 
 
 @app.route('/ajax', methods=['GET', 'POST'])

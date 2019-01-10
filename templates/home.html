@@ -29,7 +29,7 @@
 		                <td data-bind="text: client_priority"></td>
 		                <td data-bind="text: moment(target_date).format('MMM DD YYYY')"></td>
                         <td data-bind="text: product_area"></td>    
-                        <td><a data-toggle="modal" data-target="#editModal" href="#" data-edit="{{id}}" class="editBtn">Edit</a> | <a data-bind="attr: {href: '/delete/' + id}">Delete</a></td>
+                        <td><a data-bind="attr: {href: '/edit/' + id}">Edit</a> | <a data-bind="attr: {href: '/delete/' + id}">Delete</a></td>
 
 		            </tr>
 	        	</tbody>
