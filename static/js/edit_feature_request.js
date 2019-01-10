@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     function NewFeatureRequestsViewModel () {
         var self = this;
+        self.id = ko.observable();
         self.newTitle = ko.observable();
         self.newDescription = ko.observable();
         self.newClient = ko.observable();
@@ -13,19 +14,33 @@ $(document).ready(function() {
         self.clientList = ko.observableArray(['Client A', 'Client B', 'Client C']);
 
         self.getRequestDetails = function() {
+            self.id(ec.utils.getQueryStringValue('id'));
+
+            const data = {
+                'id': self.id();
+            }
+
             ec.utils.ajax('feature_requests', 'views', 'get_feature_request_details', data, function(response) {
                 if (!response.success) {
                     ec.utils.errorHandler(response);
                     return;
                 }
-                ec.utils.bootboxInformation('Your request has been submitted.', function() {
-                        window.location = '/';
-                });
+                else {
+                    self.newTitle(response.data.title);
+                    self.newDescription(response.data.description);
+                    self.newClient(response.data.client);
+                    self.newPriority(response.data.client_priority);
+                    self.newTargetDate(moment(response.data.target_date).format('YYYY-MM-DD'));
+                    self.newProductArea(response.data.product_area);
+                };
             });
         }
 
+        self.getRequestDetails();
+
         self.submitRequest = function() {
             const data = {
+                id: self.id(),
                 title: self.newTitle(),
                 description: self.newDescription(),
                 client: self.newClient(),

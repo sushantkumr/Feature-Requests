@@ -28,8 +28,8 @@ def delete_request(feature_request_id):
     return render_template('home.html')
 
 
-@app.route("/edit/<int:feature_request_id>", methods=['POST', 'GET'])
-def edit_request(feature_request_id):
+@app.route("/edit", methods=['POST', 'GET'])
+def edit_request():
     return render_template('edit_feature_request.html')
 
 
