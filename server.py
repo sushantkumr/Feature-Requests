@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from lib.models.featurerequests import FeatureRequest
+from lib.models.feature_requests import FeatureRequest
 from lib.models import db
 import logging
 from importlib import import_module
@@ -34,7 +34,7 @@ def edit_request(feature_request_id):
 
 
 @app.route('/ajax', methods=['GET', 'POST'])
-def ajaxHandler():
+def ajax_handler():
     # import pudb; pudb.set_trace();
     origin = request.remote_addr
     logging.info('Request from {}'.format(origin))

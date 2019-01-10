@@ -1,4 +1,4 @@
-from lib.models.featurerequests import FeatureRequest
+from lib.models.feature_requests import FeatureRequest
 from lib.models import db
 from datetime import datetime
 

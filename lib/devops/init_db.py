@@ -8,7 +8,7 @@ sys.path.append(os.getcwd())
 
 from lib.core.config import get_config
 from lib.models import db
-from lib.models.featurerequests import FeatureRequest
+from lib.models.feature_requests import FeatureRequest
 
 
 try:
