@@ -9,6 +9,7 @@ sys.path.append(os.getcwd())
 from lib.core.config import get_config
 from lib.models import db
 from lib.models.feature_requests import FeatureRequest
+from lib.models.users import User
 
 
 try:
@@ -18,6 +19,9 @@ except:
     pass
 
 db.init_db()
+
+user = User('123456789012', 'sushant')
+db.db_session.add(user)
 
 due_date = datetime(2019, 6, 1, 10, 10, 10)
 user = FeatureRequest('Title-1', 'Words dont matter', 'Client A', 1,

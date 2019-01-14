@@ -8,16 +8,27 @@
 	    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
 	    <script type="text/javascript" src="/static/js/libs/knockout-min.js"></script>
 	    <script type="text/javascript" src="/static/js/libs/knockout-sortable.js"></script>
+      <script type="text/javascript" src="/static/js/libs/knockout.validation.min.js"></script>
 	    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
 	    <script type="text/javascript" src="/static/js/libs/bootbox.min.js"></script>
 	    <script type="text/javascript" src="/static/js/libs/moment.min.js"></script>
-    	<script type="text/javascript" src="/static/js/utils.js"></script>
+      <script type="text/javascript" src="/static/js/utils.js"></script>
+      <script type="text/javascript" src="/static/js/ko_custom_validators.js"></script>
         <title>Feature Request App</title>
     	<nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
               <a class="navbar-brand" href="/">Feature Request</a>
             </div>
+            {% if current_user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="active"><a href="/logout">Logout</a></li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="active"><a href="/login">Login</a></li>
+                </ul>
+            {% endif %}
           </div>
         </nav>
     </head>
