@@ -8,7 +8,7 @@ class FeatureRequest(Base):
     title = Column(String(50))
     description = Column(Text)
     client = Column(String(20))
-    client_priority = Column(Integer, unique=True)
+    client_priority = Column(Integer, nullable=False)
     target_date = Column(DateTime, nullable=False)
     product_area = Column(String(20))
 
