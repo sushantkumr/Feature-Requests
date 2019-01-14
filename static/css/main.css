@@ -19,3 +19,11 @@ body {
         margin-left: 350px;
 	}
 }
+
+/*Drag drop stuff*/
+
+.item {
+    background-color: #DDD;
+    cursor: move;
+    text-align: center;
+}
