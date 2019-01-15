@@ -76,7 +76,7 @@ def signup():
         data = request.get_json()
         username = data.get('username', '').lower()
         password = data.get('password', '')
-        client = data.get('client', '')
+        client = data.get('client', '')['name']
         confirm_password = data.get('confirm_password', '')
 
         if len(username) < 5 or len(username) > 100:

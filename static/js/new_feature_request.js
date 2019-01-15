@@ -21,10 +21,15 @@ $(document).ready(function() {
                 }
                 else {
                     if(response.data == 'ALL') {
-                        self.clientList(['Client A', 'Client B', 'Client C']);
+                        self.clientList([
+                            {id: 0, name: 'ALL'},
+                            {id: 1, name: 'Client A'},
+                            {id: 2, name: 'Client B'},
+                            {id: 3, name: 'Client C'},
+                        ]);
                     }
                     else {
-                        self.clientList([response.data]);
+                        self.clientList([{name: response.data}]);
                         self.newClient(response.data);
                     }
                 };

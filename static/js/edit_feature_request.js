@@ -33,12 +33,17 @@ $(document).ready(function() {
                     self.newTargetDate(moment(response.data.target_date).format('YYYY-MM-DD'));
                     self.newProductArea(response.data.product_area);
                     if(response.data.clientList == 'ALL') {
-                        self.clientList(['Client A', 'Client B', 'Client C']);
+                        self.clientList([
+                            {id: 0, name: 'ALL'},
+                            {id: 1, name: 'Client A'},
+                            {id: 2, name: 'Client B'},
+                            {id: 3, name: 'Client C'},
+                        ]);
                     }
                     else {
-                        self.clientList([response.data.clientList]);
+                        self.clientList([{name: response.data.clientList}]);
                     }
-                    self.newClient(response.data.client);
+                    self.newClient({name: response.data.client});
                 };
             });
         }

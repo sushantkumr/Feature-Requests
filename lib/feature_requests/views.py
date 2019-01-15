@@ -37,6 +37,7 @@ def get_client_list():
 def submit_feature_requests(title, description, client, priority,
                             target_date, product_area):
     # If a FR for the client with the same priority is present
+    client = client['name']
     raw = (FeatureRequest.query
            .filter(FeatureRequest.client_priority == priority)
            .filter(FeatureRequest.client == client)
@@ -56,7 +57,6 @@ def submit_feature_requests(title, description, client, priority,
 
 
 def get_feature_request_details(id):
-    # import pudb; pudb.set_trace();
     raw = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
            .first())
@@ -68,6 +68,8 @@ def get_feature_request_details(id):
 def update_feature_requests(id, title, description, client, priority,
                             target_date, product_area):
     # Update current row
+    import pudb;pudb.set_trace();
+    client = client['name']
     row = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
            .first())

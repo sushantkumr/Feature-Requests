@@ -19,11 +19,7 @@
                     <div class="col-xs-12 col-md-6 col-lg-6">
                         <div class="s-m-b-2">
                             <label>Client</label>
-                            <select class="form-control" data-bind="options: clientList,
-                                                                value: newClient,
-                                                                optionsCaption: 'Choose the Client...',
-                                                                enable: clientList().length > 1
-                                                                "></select>                    
+                            <select class="form-control" data-bind="selectize: newClient, selectizeOptions: clientList, optionsText: 'name', optionsSearch: 'name', optionsValue: 'name', selectizePlaceholder: 'Select your Client', enable: clientList().length > 1"></select>                    
                         </div>
                         <div class="s-m-b-2">
                             <label>Priority</label>
