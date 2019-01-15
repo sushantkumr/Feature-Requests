@@ -5,6 +5,7 @@ from datetime import datetime
 
 
 def get_feature_requests():
+    # import pudb; pudb.set_trace();
     if current_user.client == 'ALL':
         raw = (db.db_session
                .query(FeatureRequest.id, FeatureRequest.title,
@@ -13,6 +14,8 @@ def get_feature_requests():
                       FeatureRequest.client_priority,
                       FeatureRequest.target_date,
                       FeatureRequest.product_area)
+               .order_by(FeatureRequest.client)
+               .order_by(FeatureRequest.client_priority)
                .all())
     else:
         raw = (db.db_session
@@ -23,6 +26,8 @@ def get_feature_requests():
                       FeatureRequest.target_date,
                       FeatureRequest.product_area)
                .filter(FeatureRequest.client == current_user.client)
+               .order_by(FeatureRequest.client)
+               .order_by(FeatureRequest.client_priority)
                .all())
     keys = ['id', 'title', 'description', 'client',
             'client_priority', 'target_date', 'product_area']

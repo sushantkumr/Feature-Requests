@@ -13,6 +13,10 @@ $(document).ready(function() {
             });
         }
         self.getFeatureRequests();
+
+        this.updateOrder = function(arg) {
+            console.log("Reached here");
+        };
     };
 
     //control visibility, give element focus, and select the contents (in order)
@@ -28,5 +32,6 @@ $(document).ready(function() {
     };
 
     _viewModel = new FeatureRequestsViewModel();
+    ko.bindingHandlers.sortable.afterMove = _viewModel.updateOrder;
     ko.applyBindings(_viewModel);
 });
