@@ -7,6 +7,8 @@ $(document).ready(function() {
         self.username = ko.observable().extend({required: true, username: true, usernameChars: true});
         self.password = ko.observable().extend({required: true, password: true});
         self.confirmPassword = ko.observable().extend({required: true, password: true, passwordMatch: self.password});
+        self.client = ko.observable().extend({required: true});
+        self.clientList = ko.observableArray(['ALL', 'Client A', 'Client B', 'Client C']);
 
         self.signup = function() {
 
@@ -20,6 +22,7 @@ $(document).ready(function() {
                 username: self.username(),
                 password: self.password(),
                 confirm_password: self.confirmPassword(),
+                client: self.client(), 
             };
 
             self.error('');

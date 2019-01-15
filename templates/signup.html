@@ -14,6 +14,13 @@
                                 <label for="loginUsername">Username</label>
                                 <input type="text" id="loginUsername" placeholder="Username" class="form-control" data-bind="value: username" />
                             </div>
+                            <div class="s-m-b-2">
+                                <label>Client</label>
+                                <select class="form-control" data-bind="options: clientList,
+                                                                value: client,
+                                                                optionsCaption: 'Choose the Client...'
+                                                                "></select>                    
+                            </div>
                             <div class="form-group error-space">
                                 <label for="login_password">Password</label>
                                 <input type="password" id="login_password" placeholder="Password" class="form-control" data-bind="value: password" />

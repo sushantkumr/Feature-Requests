@@ -3,7 +3,7 @@
     <body>
         <div>
             <form class="container" >
-                <h2 class="ui center aligned header" style="text-align: center;">New Feature Request</h2>
+                <h2 class="ui center aligned header" style="text-align: center;">Edit Feature Request</h2>
                 <hr>
                 <div class="form-group row">
                     <div class="col-xs-12 col-md-6 col-lg-6">
@@ -21,7 +21,8 @@
                             <label>Client</label>
                             <select class="form-control" data-bind="options: clientList,
                                                                 value: newClient,
-                                                                optionsCaption: 'Choose the Client...'
+                                                                optionsCaption: 'Choose the Client...',
+                                                                enable: clientList().length > 1
                                                                 "></select>                    
                         </div>
                         <div class="s-m-b-2">

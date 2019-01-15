@@ -4,15 +4,15 @@ $(document).ready(function() {
         var self = this;
         self.id = ko.observable();
         self.error = ko.observable();
-        self.newTitle = ko.observable().extend({required: true, usernameChars: true, username: true});
-        self.newDescription = ko.observable().extend({required: true, usernameChars: true, username: true});
+        self.newTitle = ko.observable().extend({required: true});
+        self.newDescription = ko.observable().extend({required: true});
         self.newClient = ko.observable().extend({required: true});
         self.newPriority = ko.observable().extend({required: true});
         self.newTargetDate = ko.observable().extend({required: true});
         self.newProductArea = ko.observable().extend({required: true});
 
         self.productAreaList = ko.observableArray(['Billing', 'Policies', 'Claims', 'Reports']);
-        self.clientList = ko.observableArray(['Client A', 'Client B', 'Client C']);
+        self.clientList = ko.observableArray();
 
         self.getRequestDetails = function() {
             self.id(ec.utils.getQueryStringValue('id'));
@@ -29,10 +29,16 @@ $(document).ready(function() {
                 else {
                     self.newTitle(response.data.title);
                     self.newDescription(response.data.description);
-                    self.newClient(response.data.client);
                     self.newPriority(response.data.client_priority);
                     self.newTargetDate(moment(response.data.target_date).format('YYYY-MM-DD'));
                     self.newProductArea(response.data.product_area);
+                    if(response.data.clientList == 'ALL') {
+                        self.clientList(['Client A', 'Client B', 'Client C']);
+                    }
+                    else {
+                        self.clientList([response.data.clientList]);
+                    }
+                    self.newClient(response.data.client);
                 };
             });
         }

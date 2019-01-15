@@ -76,6 +76,7 @@ def signup():
         data = request.get_json()
         username = data.get('username', '').lower()
         password = data.get('password', '')
+        client = data.get('client', '')
         confirm_password = data.get('confirm_password', '')
 
         if len(username) < 5 or len(username) > 100:
@@ -103,7 +104,7 @@ def signup():
                 'message': 'This username is taken.'
             })
 
-        new_user = User(password=password, name=username)
+        new_user = User(password=password, name=username, client=client)
         db.db_session.add(new_user)
         db.db_session.commit()
         flask_login.login_user(new_user)

@@ -1,21 +1,37 @@
 from lib.models.feature_requests import FeatureRequest
 from lib.models import db, utils
+from flask_login import current_user
 from datetime import datetime
 
 
 def get_feature_requests():
-    raw = (db.db_session
-           .query(FeatureRequest.id, FeatureRequest.title,
-                  FeatureRequest.description,
-                  FeatureRequest.client,
-                  FeatureRequest.client_priority,
-                  FeatureRequest.target_date,
-                  FeatureRequest.product_area)
-           .all())
+    if current_user.client == 'ALL':
+        raw = (db.db_session
+               .query(FeatureRequest.id, FeatureRequest.title,
+                      FeatureRequest.description,
+                      FeatureRequest.client,
+                      FeatureRequest.client_priority,
+                      FeatureRequest.target_date,
+                      FeatureRequest.product_area)
+               .all())
+    else:
+        raw = (db.db_session
+               .query(FeatureRequest.id, FeatureRequest.title,
+                      FeatureRequest.description,
+                      FeatureRequest.client,
+                      FeatureRequest.client_priority,
+                      FeatureRequest.target_date,
+                      FeatureRequest.product_area)
+               .filter(FeatureRequest.client == current_user.client)
+               .all())
     keys = ['id', 'title', 'description', 'client',
             'client_priority', 'target_date', 'product_area']
     frs = [dict(zip(keys, result)) for result in raw]
     return frs
+
+
+def get_client_list():
+    return current_user.client
 
 
 def submit_feature_requests(title, description, client, priority,
@@ -45,6 +61,7 @@ def get_feature_request_details(id):
            .filter(FeatureRequest.id == id)
            .first())
     raw = utils.to_dict(raw)
+    raw['clientList'] = current_user.client
     return raw
 
 

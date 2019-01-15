@@ -26,7 +26,7 @@ $(document).ready(function() {
                 }, 0); //new tasks are not in DOM yet
             }
         }
-    };    
+    };
 
     _viewModel = new FeatureRequestsViewModel();
     ko.applyBindings(_viewModel);
