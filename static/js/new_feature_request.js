@@ -25,6 +25,7 @@ $(document).ready(function() {
                     }
                     else {
                         self.clientList([response.data]);
+                        self.newClient(response.data);
                     }
                 };
             });
