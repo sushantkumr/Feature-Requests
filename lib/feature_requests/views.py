@@ -68,7 +68,6 @@ def get_feature_request_details(id):
 def update_feature_requests(id, title, description, client, priority,
                             target_date, product_area):
     # Update current row
-    import pudb;pudb.set_trace();
     client = client['name']
     row = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
@@ -80,6 +79,7 @@ def update_feature_requests(id, title, description, client, priority,
     row.target_date = datetime.strptime(target_date, '%Y-%m-%d')
     row. product_area = product_area
     db.db_session.add(row)
+    db.db_session.commit()  # To reflect the changes in the next block of code
 
     # Update priority of other FRs if affected
     raw = (FeatureRequest.query

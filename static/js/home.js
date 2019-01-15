@@ -9,7 +9,6 @@ $(document).ready(function() {
                     ec.utils.errorHandler(response);
                     return;
                 }
-                console.log(response.data)
                 self.featureRequests(response.data);
             });
         }
