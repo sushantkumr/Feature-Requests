@@ -27,3 +27,7 @@ body {
     cursor: move;
     text-align: center;
 }
+
+.validationMessage {
+    color: #a94442;
+}

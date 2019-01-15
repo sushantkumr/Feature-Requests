@@ -8,7 +8,7 @@ $(document).ready(function() {
 
         self.login = function() {
 
-            var errors = ko.validation.group([self.loginUsername, self.loginPassword]);
+            const errors = ko.validation.group([self.loginUsername, self.loginPassword]);
             if (errors().length > 0) {
                 errors.showAllMessages(true);
                 return;

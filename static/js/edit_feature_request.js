@@ -3,12 +3,13 @@ $(document).ready(function() {
     function NewFeatureRequestsViewModel () {
         var self = this;
         self.id = ko.observable();
-        self.newTitle = ko.observable();
-        self.newDescription = ko.observable();
-        self.newClient = ko.observable();
-        self.newPriority = ko.observable();
-        self.newTargetDate = ko.observable();
-        self.newProductArea = ko.observable();
+        self.error = ko.observable();
+        self.newTitle = ko.observable().extend({required: true, usernameChars: true, username: true});
+        self.newDescription = ko.observable().extend({required: true, usernameChars: true, username: true});
+        self.newClient = ko.observable().extend({required: true});
+        self.newPriority = ko.observable().extend({required: true});
+        self.newTargetDate = ko.observable().extend({required: true});
+        self.newProductArea = ko.observable().extend({required: true});
 
         self.productAreaList = ko.observableArray(['Billing', 'Policies', 'Claims', 'Reports']);
         self.clientList = ko.observableArray(['Client A', 'Client B', 'Client C']);
@@ -39,6 +40,12 @@ $(document).ready(function() {
         self.getRequestDetails();
 
         self.submitRequest = function() {
+            const errors = ko.validation.group([self.newTitle, self.newDescription, self.newClient, self.newPriority, self.newTargetDate, self.newProductArea]);
+            if (errors().length > 0) {
+                errors.showAllMessages(true);
+                return;
+            }
+
             const data = {
                 id: self.id(),
                 title: self.newTitle(),

@@ -49,44 +49,6 @@ ko.validation.rules['passwordMatch'] = {
     message: 'Passwords do not match.'
 };
 
-ko.validation.rules['cocooonRange'] = {
-    validator: function(val) {
-        return Number(val) >= 2 && Number(val) <= 7;
-    },
-    message: 'Cocoon interval should be between 2 and 7 months.'
-};
-
-ko.validation.rules['walletAddress'] = {
-    // https://github.com/ethereum/web3.js/blob/306680f8d917f912d9c6ed632d133274909cee87/lib/utils/utils.js#L402
-    validator: function (address) {
-        var isChecksumAddress = function (address) {
-            // Check each case
-            address = address.replace('0x','');
-            var addressHash = sha3(address.toLowerCase());
-
-            for (var i = 0; i < 40; i++ ) {
-                // the nth letter should be uppercase if the nth digit of casemap is 1
-                if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-            // check if it has the basic requirements of an address
-            return false;
-        } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
-            // If it's all small caps or all all caps, return true
-            return true;
-        } else {
-            // Otherwise check each case
-            return isChecksumAddress(address);
-        }
-    },
-    message: 'This is not a valid Ethereum wallet address.'
-};
-
 ko.validation.rules['password'] = {
     validator: function(val) {
         return (val.length >= 12 && val.length <= 100);
