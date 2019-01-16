@@ -9,11 +9,10 @@
 	        <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Priority</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Client</th>
-                        <th>Priority</th>
                         <th>Target Date</th>
                         <th>Product Area</th>
                         <th>Update</th>
@@ -22,11 +21,10 @@
             	<!-- ko if: featureRequests().length > 0 -->
                 <tbody data-bind="sortable: featureRequests">
 		            <tr class="item">
-		                <td data-bind="text: id"></td>
-		                <td data-bind="text: title"></td>
-		                <td data-bind="text: description"></td>
-		                <td data-bind="text: client"></td>
 		                <td data-bind="text: client_priority"></td>
+                        <td data-bind="text: title"></td>
+                        <td data-bind="text: description"></td>
+                        <td data-bind="text: client"></td>
 		                <td data-bind="text: moment(target_date).format('MMM DD YYYY')"></td>
                         <td data-bind="text: product_area"></td>    
                         <td><a data-bind="attr: {href: '/edit?id=' + id}">Edit</a> | <a data-bind="attr: {href: '/delete/' + id}">Delete</a></td>

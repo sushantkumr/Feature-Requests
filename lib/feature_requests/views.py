@@ -73,6 +73,7 @@ def get_feature_request_details(id):
 def update_feature_requests(id, title, description, client, priority,
                             target_date, product_area):
     # Update current row
+    # import pudb; pudb.set_trace();
     client = client['name']
     row = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
@@ -93,8 +94,9 @@ def update_feature_requests(id, title, description, client, priority,
            .first())
     if raw:
         rows = (FeatureRequest.query
-                .filter(FeatureRequest.client_priority > priority)
+                .filter(FeatureRequest.client_priority >= priority)
                 .filter(FeatureRequest.client == client)
+                .filter(FeatureRequest.id != id)  # To prevent incrementing the same row
                 .all())
         for row in rows:
             row.client_priority = int(row.client_priority) + 1  # Why is this happening

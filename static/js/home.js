@@ -15,7 +15,13 @@ $(document).ready(function() {
         self.getFeatureRequests();
 
         this.updateOrder = function(arg) {
-            console.log("Reached here");
+            console.log(arg)
+            console.log("Name: " + arg.item.name);
+            console.log("From: " + arg.sourceParent.id);
+            console.log("Location: " + (arg.sourceIndex + 1))
+            console.log("To: " + arg.targetParent.id)
+            console.log("Location: " + (arg.targetIndex + 1))
+            /*  */
         };
     };
 
