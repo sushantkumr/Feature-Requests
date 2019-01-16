@@ -31,7 +31,6 @@ $(document).ready(function() {
                     }
                     else {
                         self.error('Error: ' + response.message);
-                        grecaptcha.reset();
                     }
                 },
                 error: function(a, b, c) {
