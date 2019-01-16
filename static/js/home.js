@@ -16,10 +16,8 @@ $(document).ready(function() {
 
         this.updateOrder = function(arg) {
             const movedFRclient = arg.item["client"];
-            const movedFRid = arg.item["id"];
             let listOfFRForClient = [];
-            let newPriority;
-            console.log(self.featureRequests());
+            let newPriorities = {}
             for(index = 0; index < self.featureRequests().length; index++) {
                 fr = self.featureRequests()[index];
                 if (fr["client"] == movedFRclient) {
@@ -28,14 +26,12 @@ $(document).ready(function() {
             }
 
             for(index = 0; index < listOfFRForClient.length; index++) {
-                if (listOfFRForClient[index]["id"] == movedFRid)
-                    newPriority = index + 1;
+                newPriorities[listOfFRForClient[index]["id"]] = index + 1;
             }
 
             const data = {
-                id: movedFRid,
                 client: movedFRclient,
-                new_priority: newPriority,
+                new_priorities: newPriorities,
             };
 
             ec.utils.ajax('feature_requests', 'views', 'update_for_drag_drop', data, function(response) {

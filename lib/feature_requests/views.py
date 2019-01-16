@@ -101,26 +101,12 @@ def update_feature_requests(id, title, description, client, priority,
             db.db_session.add(row)
 
 
-def update_for_drag_drop(id, client, new_priority):
-    row = (FeatureRequest.query
-           .filter(FeatureRequest.id == id)
-           .first())
-    row.client_priority = new_priority
+def update_for_drag_drop(client, new_priorities):
+    rows = (FeatureRequest.query
+            .filter(FeatureRequest.client == client)
+            .all())
+    for row in rows:
+        row.client_priority = new_priorities[str(row.id)]
     db.db_session.add(row)
     db.db_session.commit()
-
-    raw = (FeatureRequest.query
-           .filter(FeatureRequest.client_priority == new_priority)
-           .filter(FeatureRequest.client == client)
-           .first())
-    if raw:
-        rows = (FeatureRequest.query
-                .filter(FeatureRequest.client_priority >= new_priority)
-                .filter(FeatureRequest.client == client)
-                .filter(FeatureRequest.id != id)  # To prevent incrementing the same row
-                .all())
-        for row in rows:
-            row.client_priority = int(row.client_priority) + 1  # Why is this happening
-            db.db_session.add(row)
-            db.db_session.commit()
     return get_feature_requests()
