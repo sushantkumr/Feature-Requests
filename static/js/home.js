@@ -15,26 +15,37 @@ $(document).ready(function() {
         self.getFeatureRequests();
 
         this.updateOrder = function(arg) {
-            console.log(arg)
-            console.log("Name: " + arg.item.name);
-            console.log("From: " + arg.sourceParent.id);
-            console.log("Location: " + (arg.sourceIndex + 1))
-            console.log("To: " + arg.targetParent.id)
-            console.log("Location: " + (arg.targetIndex + 1))
-            /*  */
-        };
-    };
-
-    //control visibility, give element focus, and select the contents (in order)
-    ko.bindingHandlers.visibleAndSelect = {
-        update: function(element, valueAccessor) {
-            ko.bindingHandlers.visible.update(element, valueAccessor);
-            if (valueAccessor()) {
-                setTimeout(function() {
-                    $(element).find("input").focus().select();
-                }, 0); //new tasks are not in DOM yet
+            const movedFRclient = arg.item["client"];
+            const movedFRid = arg.item["id"];
+            let listOfFRForClient = [];
+            let newPriority;
+            console.log(self.featureRequests());
+            for(index = 0; index < self.featureRequests().length; index++) {
+                fr = self.featureRequests()[index];
+                if (fr["client"] == movedFRclient) {
+                    listOfFRForClient.push(fr);
+                }
             }
-        }
+
+            for(index = 0; index < listOfFRForClient.length; index++) {
+                if (listOfFRForClient[index]["id"] == movedFRid)
+                    newPriority = index + 1;
+            }
+
+            const data = {
+                id: movedFRid,
+                client: movedFRclient,
+                new_priority: newPriority,
+            };
+
+            ec.utils.ajax('feature_requests', 'views', 'update_for_drag_drop', data, function(response) {
+                if (!response.success) {
+                    ec.utils.errorHandler(response);
+                    return;
+                }
+                self.featureRequests(response.data);
+            });            
+        };
     };
 
     _viewModel = new FeatureRequestsViewModel();

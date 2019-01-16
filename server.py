@@ -24,7 +24,7 @@ NOT_FOUND = 404
 
 
 # ***
-# Auth stuff
+# Auth
 # ***
 
 
@@ -117,7 +117,6 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User will be served the login page or will be logged in."""
-    # import pudb; pudb.set_trace();
     if request.method == 'GET':
         return render_template('login.html')
 
@@ -166,7 +165,6 @@ def edit_request():
 @app.route('/ajax', methods=['GET', 'POST'])
 @login_required
 def ajax_handler():
-    # import pudb; pudb.set_trace();
     origin = request.remote_addr
     logging.info('Request from {}'.format(origin))
     module = request.args.get('module')
@@ -196,7 +194,6 @@ def ajax_handler():
         return jsonify({'success': True, 'data': data})
 
     except Exception as e:
-        # TODO: Log errors
         # Discard all changes if an error occurs
         db.db_session.rollback()
         return jsonify({
