@@ -36,8 +36,6 @@ $(document).ready(function() {
                     return;
                 }
                 else {
-                    console.log(response.data[0]["name"]);
-                    console.log(response.data.length)
                     self.clientList(response.data);
                     if(response.data.length == 1) {
                         self.newClient({name: response.data[0]["name"]});
