@@ -84,29 +84,70 @@ def get_feature_request_details(id):
 def update_feature_requests(id, title, description, client, priority,
                             target_date, product_area):
     # Update current row
+    import pudb; pudb.set_trace();
     client = client['name']
     row = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
            .first())
+
+    old_client = row.client
+    old_priority = row.client_priority
+    if int(priority) < 1:
+        priority = 1
+    count = (FeatureRequest.query
+             .filter(FeatureRequest.client == client)
+             .count())
+    if int(priority) > count:
+        priority = count + 1
+
     row.title = title
     row.description = description
     row.client = client
     row.client_priority = priority
     row.target_date = datetime.strptime(target_date, '%Y-%m-%d')
     row.product_area = product_area
+
     db.db_session.add(row)
     db.db_session.flush()  # To reflect the changes in the next block of code
 
-    # Update priority of other FRs if affected
-    current_fr = (FeatureRequest.query
-                  .filter(FeatureRequest.client_priority == priority)
-                  .filter(FeatureRequest.client == client)
-                  .first())
-    if current_fr:
+    # Restrict movement within moved FRs
+    if old_client == client:
+        if old_priority < int(priority):
+            rows = (FeatureRequest.query
+                    .filter(FeatureRequest.client_priority >= old_priority)
+                    .filter(FeatureRequest.client_priority <= priority)
+                    .filter(FeatureRequest.client == client)
+                    .filter(FeatureRequest.id != id)
+                    .all())
+            for row in rows:
+                row.client_priority = int(row.client_priority) - 1
+                db.db_session.add(row)
+        else:
+            rows = (FeatureRequest.query
+                    .filter(FeatureRequest.client_priority <= old_priority)
+                    .filter(FeatureRequest.client_priority >= priority)
+                    .filter(FeatureRequest.client == client)
+                    .filter(FeatureRequest.id != id)
+                    .all())
+            for row in rows:
+                row.client_priority = int(row.client_priority) + 1
+                db.db_session.add(row)
+    else:
+        # Fill gap created by the moved FR
+        rows = (FeatureRequest.query
+                .filter(FeatureRequest.client_priority > old_priority)
+                .filter(FeatureRequest.client_priority > 0)
+                .filter(FeatureRequest.client == old_client)
+                .all())
+        for row in rows:
+            row.client_priority = int(row.client_priority) - 1
+            db.db_session.add(row)
+
+        # Push other FRs to accomodate new FR
         rows = (FeatureRequest.query
                 .filter(FeatureRequest.client_priority >= priority)
-                .filter(FeatureRequest.client == client)
                 .filter(FeatureRequest.id != id)
+                .filter(FeatureRequest.client == client)
                 .all())
         for row in rows:
             row.client_priority = int(row.client_priority) + 1
@@ -124,9 +165,10 @@ def update_for_drag_drop(client, new_priorities):
     return get_feature_requests()
 
 
-def delete_request(id, priority):
+def delete_request(id, priority, client):
     rows = (FeatureRequest.query
             .filter(FeatureRequest.id != id)
+            .filter(FeatureRequest.client == client)
             .all())
     for row in rows:
         if row.client_priority > priority:

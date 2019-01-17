@@ -77,9 +77,7 @@ $(document).ready(function() {
                     ec.utils.errorHandler(response);
                     return;
                 }
-                ec.utils.bootboxInformation('Request has been updated.', function() {
-                        window.location = '/';
-                });
+                window.location = '/';
             });
         }
     };

@@ -66,9 +66,7 @@ $(document).ready(function() {
                     ec.utils.errorHandler(response);
                     return;
                 }
-                ec.utils.bootboxInformation('Your request has been submitted.', function() {
-                        window.location = '/';
-                });
+                window.location = '/';
             });
         }
     };

@@ -16,6 +16,7 @@ $(document).ready(function() {
             data = {
                 id: row["id"],
                 priority: row["client_priority"],
+                client: row["client"],
             };
 
             const message = 'Do you really want to delete this request?'
