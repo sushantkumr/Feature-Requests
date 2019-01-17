@@ -12,28 +12,6 @@ ko.validation.rules['positive'] = {
     message: 'This field must have a positive numerical value.'
 };
 
-ko.validation.rules['nonNegative'] = {
-    validator: function(val) {
-        return val >= 0;
-    },
-    message: 'This field must have a non-negative numerical value.'
-};
-
-ko.validation.rules['lessThanOrEqual'] = {
-    validator: function(val, otherVal) {
-        if (typeof otherVal === 'function') {
-            otherVal = otherVal();
-        }
-        return Number(val) <= Number(otherVal);
-    },
-    message: function(otherVal) {
-        if (typeof otherVal === 'function') {
-            otherVal = otherVal();
-        }
-        return 'Value should be less than or equal to ' + otherVal;
-    }
-};
-
 ko.validation.rules['passwordMatch'] = {
     validator: function(val, otherVal) {
         return val === otherVal;

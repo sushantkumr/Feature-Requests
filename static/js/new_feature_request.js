@@ -22,7 +22,7 @@ $(document).ready(function() {
         self.newTitle = ko.observable().extend({required: true});
         self.newDescription = ko.observable().extend({required: true});
         self.newClient = ko.observable().extend({required: true});
-        self.newPriority = ko.observable().extend({required: true});
+        self.newPriority = ko.observable().extend({required: true, number: true, positive: true});
         self.newTargetDate = ko.observable().extend({required: true});
         self.newProductArea = ko.observable().extend({required: true});
 
@@ -36,17 +36,11 @@ $(document).ready(function() {
                     return;
                 }
                 else {
-                    if(response.data == 'ALL') {
-                        self.clientList([
-                            {id: 0, name: 'ALL'},
-                            {id: 1, name: 'Client A'},
-                            {id: 2, name: 'Client B'},
-                            {id: 3, name: 'Client C'},
-                        ]);
-                    }
-                    else {
-                        self.clientList([{name: response.data}]);
-                        self.newClient(response.data);
+                    console.log(response.data[0]["name"]);
+                    console.log(response.data.length)
+                    self.clientList(response.data);
+                    if(response.data.length == 1) {
+                        self.newClient({name: response.data[0]["name"]});
                     }
                 };
             });

@@ -48,17 +48,7 @@ $(document).ready(function() {
                     self.newPriority(response.data.client_priority);
                     self.newTargetDate(moment(response.data.target_date).format('YYYY-MM-DD'));
                     self.newProductArea(response.data.product_area);
-                    if(response.data.clientList == 'ALL') {
-                        self.clientList([
-                            {id: 0, name: 'ALL'},
-                            {id: 1, name: 'Client A'},
-                            {id: 2, name: 'Client B'},
-                            {id: 3, name: 'Client C'},
-                        ]);
-                    }
-                    else {
-                        self.clientList([{name: response.data.clientList}]);
-                    }
+                    self.clientList(response.data.clientList);
                     self.newClient({name: response.data.client});
                 };
             });
@@ -87,7 +77,7 @@ $(document).ready(function() {
                     ec.utils.errorHandler(response);
                     return;
                 }
-                ec.utils.bootboxInformation('Your request has been submitted.', function() {
+                ec.utils.bootboxInformation('Request has been updated.', function() {
                         window.location = '/';
                 });
             });

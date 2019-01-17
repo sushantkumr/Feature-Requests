@@ -6,54 +6,65 @@ from datetime import datetime
 
 def get_feature_requests():
     if current_user.client == 'ALL':
-        raw = (db.db_session
-               .query(FeatureRequest.id, FeatureRequest.title,
-                      FeatureRequest.description,
-                      FeatureRequest.client,
-                      FeatureRequest.client_priority,
-                      FeatureRequest.target_date,
-                      FeatureRequest.product_area)
-               .order_by(FeatureRequest.client)
-               .order_by(FeatureRequest.client_priority)
-               .all())
+        rows = (db.db_session
+                .query(FeatureRequest.id, FeatureRequest.title,
+                       FeatureRequest.description,
+                       FeatureRequest.client,
+                       FeatureRequest.client_priority,
+                       FeatureRequest.target_date,
+                       FeatureRequest.product_area)
+                .order_by(FeatureRequest.client_priority)
+                .order_by(FeatureRequest.client)
+                .all())
     else:
-        raw = (db.db_session
-               .query(FeatureRequest.id, FeatureRequest.title,
-                      FeatureRequest.description,
-                      FeatureRequest.client,
-                      FeatureRequest.client_priority,
-                      FeatureRequest.target_date,
-                      FeatureRequest.product_area)
-               .filter(FeatureRequest.client == current_user.client)
-               .order_by(FeatureRequest.client)
-               .order_by(FeatureRequest.client_priority)
-               .all())
+        rows = (db.db_session
+                .query(FeatureRequest.id, FeatureRequest.title,
+                       FeatureRequest.description,
+                       FeatureRequest.client,
+                       FeatureRequest.client_priority,
+                       FeatureRequest.target_date,
+                       FeatureRequest.product_area)
+                .filter(FeatureRequest.client == current_user.client)
+                .order_by(FeatureRequest.client_priority)
+                .order_by(FeatureRequest.client)
+                .all())
     keys = ['id', 'title', 'description', 'client',
             'client_priority', 'target_date', 'product_area']
-    frs = [dict(zip(keys, result)) for result in raw]
+    frs = [dict(zip(keys, result)) for result in rows]
     return frs
 
 
 def get_client_list():
-    return current_user.client
+    client = current_user.client
+    if client == 'ALL':
+        return [
+                {'id': 0, 'name': 'ALL'},
+                {'id': 1, 'name': 'Client A'},
+                {'id': 2, 'name': 'Client B'},
+                {'id': 3, 'name': 'Client C'},
+               ]
+    else:
+        return [{'id': 0, 'name': client}]
 
 
 def submit_feature_requests(title, description, client, priority,
                             target_date, product_area):
-    # If a FR for the client with the same priority is present
     client = client['name']
-    raw = (FeatureRequest.query
-           .filter(FeatureRequest.client_priority == priority)
-           .filter(FeatureRequest.client == client)
-           .first())
-    if raw:
-        rows = (FeatureRequest.query
-                .filter(FeatureRequest.client_priority >= priority)
-                .filter(FeatureRequest.client == client)
-                .all())
-        for row in rows:
-            row.client_priority = row.client_priority + 1
-            db.db_session.add(row)
+    if int(priority) < 1:
+        priority = 1
+    count = (FeatureRequest.query
+             .filter(FeatureRequest.client == client)
+             .count())
+    if int(priority) > count:
+        priority = count + 1
+    # If a FR for the client with the same priority is present
+    rows = (FeatureRequest.query
+            .filter(FeatureRequest.client_priority >= priority)
+            .filter(FeatureRequest.client == client)
+            .all())
+    for row in rows:
+        row.client_priority = row.client_priority + 1
+        db.db_session.add(row)
     target_date = datetime.strptime(target_date, '%Y-%m-%d')
     fr = FeatureRequest(title, description, client, priority,
                         target_date, product_area)
@@ -61,12 +72,13 @@ def submit_feature_requests(title, description, client, priority,
 
 
 def get_feature_request_details(id):
-    raw = (FeatureRequest.query
-           .filter(FeatureRequest.id == id)
-           .first())
-    raw = utils.to_dict(raw)
-    raw['clientList'] = current_user.client
-    return raw
+    fr_details = (FeatureRequest.query
+                  .filter(FeatureRequest.id == id)
+                  .first())
+    fr_details = utils.to_dict(fr_details)
+    # TODO: Store Client lists in a different table
+    fr_details['clientList'] = get_client_list()
+    return fr_details
 
 
 def update_feature_requests(id, title, description, client, priority,
@@ -81,16 +93,16 @@ def update_feature_requests(id, title, description, client, priority,
     row.client = client
     row.client_priority = priority
     row.target_date = datetime.strptime(target_date, '%Y-%m-%d')
-    row. product_area = product_area
+    row.product_area = product_area
     db.db_session.add(row)
     db.db_session.commit()  # To reflect the changes in the next block of code
 
     # Update priority of other FRs if affected
-    raw = (FeatureRequest.query
-           .filter(FeatureRequest.client_priority == priority)
-           .filter(FeatureRequest.client == client)
-           .first())
-    if raw:
+    current_fr = (FeatureRequest.query
+                  .filter(FeatureRequest.client_priority == priority)
+                  .filter(FeatureRequest.client == client)
+                  .first())
+    if current_fr:
         rows = (FeatureRequest.query
                 .filter(FeatureRequest.client_priority >= priority)
                 .filter(FeatureRequest.client == client)
