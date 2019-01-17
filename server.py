@@ -10,27 +10,21 @@ from lib.core import config
 
 
 configuration = config.get_config()
-
 app = Flask(__name__)
-
 app.secret_key = configuration['secret_key']
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
+# HTTP Status codes
 SUCCESS = 200
 BAD_REQUEST = 400
 FORBIDDEN = 403
 NOT_FOUND = 404
 
 
-# ***
-# Auth
-# ***
-
-
 @login_manager.user_loader
 def user_loader(id):
-    """flask_login stuff."""
+    """flask_login"""
     user = User.query.get(id)
     if user is None:
         return
@@ -39,7 +33,7 @@ def user_loader(id):
 
 @login_manager.request_loader
 def request_loader(request):
-    """flask_login stuff."""
+    """flask_login"""
     username = request.form.get('username')
     password = request.form.get('password')
 
@@ -64,6 +58,7 @@ def root():
         return render_template('login.html')
 
 
+# Route for handling the signup logic
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.__dict__.get('id', None):
@@ -173,7 +168,7 @@ def ajax_handler():
     logging.info('Target method {}'.format(module + '/' + file + '/' + method))
     try:
         kwargs = request.get_json()
-    except:
+    except: # noqa
         return jsonify({
             'success': False,
             'message': 'Could not parse request JSON'
@@ -182,7 +177,7 @@ def ajax_handler():
     try:
         function = getattr(import_module('.'.join(['lib', module, file])),
                            method)
-    except:
+    except: # noqa
         return jsonify({
             'success': False,
             'message': 'Method not found.'
@@ -213,7 +208,8 @@ def logout():
 if __name__ == '__main__':
     logging.basicConfig(
         level=logging.DEBUG,
-        format='%(asctime)s %(levelname)s %(module)s - %(funcName)s: %(message)s'
+        format='%(asctime)s %(levelname)s %(module)s - \
+        %(funcName)s: %(message)s'
     )
     app.run(
         host='0.0.0.0',

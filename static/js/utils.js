@@ -5,10 +5,6 @@ ec.utils.get_ajax_url = function(module, file, method) {
     return '/ajax?module=' + module + '&file=' + file + '&method=' + method;
 };
 
-ec.utils.get_eajax_url = function(module, file, method) {
-    return '/eajax?module=' + module + '&file=' + file + '&method=' + method;
-};
-
 ec.utils.ajax = function(module, file, method, data, success, error) {
     success = success || console.log;
     error = error || function() {
@@ -37,39 +33,9 @@ ec.utils.ajax = function(module, file, method, data, success, error) {
     }
 };
 
-ec.utils.eajax = function(module, file, method, data, success, error) {
-    success = success || console.log;
-    error = error || function() {
-        // Tell the server what went wrong?
-        console.log(arguments);
-        ec.utils.bootboxError('An unexpected error occurred while processing your request. Please try again after some time.');
-    };
-
-    if (typeof success === 'function' &&
-        typeof error === 'function' &&
-        typeof module === 'string' &&
-        typeof file === 'string' &&
-        typeof method === 'string' &&
-        typeof data === 'object') {
-        return $.ajax({
-            method: 'POST',
-            contentType: 'application/json',
-            url: ec.utils.get_eajax_url(module, file, method),
-            data: JSON.stringify(data),
-            success: success,
-            error: error
-        });
-    }
-    else {
-        console.error('Invalid param type found:', module, file, method, data, success, error);
-    }
-};
-
 ec.utils.refreshPage = function() {
     window.location.reload();
 };
-
-ec.utils.doNothing = function() {};
 
 ec.utils.bootboxError = function(message, callback) {
     var _callback = ec.utils.doNothing;
@@ -95,13 +61,6 @@ ec.utils.bootboxError = function(message, callback) {
         message: message,
         callback: _callback
     });
-};
-
-ec.utils.bootboxHelp = function(message, callback) {
-    if (typeof callback !== 'function') {
-        callback = function(){};
-    }
-    bootbox.alert({title: 'Help', message: message, callback: callback});
 };
 
 ec.utils.bootboxInformation = function(message, callback) {

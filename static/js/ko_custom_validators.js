@@ -34,14 +34,6 @@ ko.validation.rules['lessThanOrEqual'] = {
     }
 };
 
-ko.validation.rules['emailId'] = {
-    validator: function(val) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(val).toLowerCase());
-    },
-    message: 'Enter a valid Email-id'
-};
-
 ko.validation.rules['passwordMatch'] = {
     validator: function(val, otherVal) {
         return val === otherVal;

@@ -6,7 +6,8 @@ from lib.core import config
 
 configuration = config.get_config()
 
-engine = create_engine(configuration['connection_string'], convert_unicode=True)
+engine = create_engine(configuration['connection_string'],
+                       convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))

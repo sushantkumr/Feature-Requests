@@ -94,10 +94,10 @@ def update_feature_requests(id, title, description, client, priority,
         rows = (FeatureRequest.query
                 .filter(FeatureRequest.client_priority >= priority)
                 .filter(FeatureRequest.client == client)
-                .filter(FeatureRequest.id != id)  # To prevent incrementing the same row
+                .filter(FeatureRequest.id != id)
                 .all())
         for row in rows:
-            row.client_priority = int(row.client_priority) + 1  # Why is this happening
+            row.client_priority = int(row.client_priority) + 1
             db.db_session.add(row)
 
 

@@ -6,15 +6,15 @@ from datetime import datetime
 
 sys.path.append(os.getcwd())
 
-from lib.core.config import get_config
-from lib.models import db
-from lib.models.feature_requests import FeatureRequest
-from lib.models.users import User
+from lib.core.config import get_config # noqa
+from lib.models import db # noqa
+from lib.models.feature_requests import FeatureRequest # noqa
+from lib.models.users import User # noqa
 
 
 try:
     os.remove(get_config()['connection_string'][10:])
-except:
+except:  # noqa
     # If it doesn't exist already
     pass
 

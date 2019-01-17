@@ -17,7 +17,7 @@ $(document).ready(function() {
         this.updateOrder = function(arg) {
             const movedFRclient = arg.item["client"];
             let listOfFRForClient = [];
-            let newPriorities = {}
+            let newPriorities = {};
             for(index = 0; index < self.featureRequests().length; index++) {
                 fr = self.featureRequests()[index];
                 if (fr["client"] == movedFRclient) {
