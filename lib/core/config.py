@@ -5,7 +5,7 @@ CONFIGS = {}
 CONFIGS['TEST'] = {
     'connection_string': 'sqlite:////tmp/test.db',
     'secret_key': 'test',
-    'host': '127.0.0.1',
+    'host': '0.0.0.0',
     'port': 5000,
     'debug': True,
     'env': 'TEST',
