@@ -1,10 +1,8 @@
 # project/test_basic.py
 
 import unittest
-from server import app, db
+from server import app
 import json
-
-TEST_DB = 'test.db'
 
 
 class BasicTests(unittest.TestCase):
@@ -25,14 +23,14 @@ class BasicTests(unittest.TestCase):
         return self.app.post(
             '/signup',
             data=json.dumps(dict(username=username, password=password, confirm=confirm, client=client)),
-            follow_redirects=True
+            follow_redirects=True, mimetype='application/json'
         )
 
-    def login(self, name, password):
+    def login(self, username, password):
         return self.app.post(
             '/login',
-            data=dict(name=name, password=password),
-            follow_redirects=True
+            data=json.dumps(dict(username=username, password=password)),
+            follow_redirects=True, mimetype='application/json'
         )
 
     def logout(self):
@@ -55,6 +53,11 @@ class BasicTests(unittest.TestCase):
 
     def test_valid_user_signup(self):
         response = self.signup('cesar', '123456789012', '123456789012', {"id": 3, "name": "Client C", "$order":8})
+        self.assertEqual(response.status_code, 200)
+
+    def test_valid_user_login(self):
+        self.signup('cesar', '123456789012', '123456789012', {"id": 3, "name": "Client C", "$order":8})
+        response = self.login('cesar', '123456789012')
         self.assertEqual(response.status_code, 200)
 
 
