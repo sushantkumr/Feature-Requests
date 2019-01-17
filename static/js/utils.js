@@ -97,15 +97,3 @@ ec.utils.getQueryStringValue = function(key) {
     var match = location.search.match(new RegExp("[?&]"+key+"=([^&]+)(&|$)"));
     return match && decodeURIComponent(match[1].replace(/\+/g, " "));
 };
-
-ec.utils.deleteConfirmation = function(module, file, method, data, success, error) {
-    const message = 'Do you really want to delete this request?'
-    bootbox.confirm(message, function(result) {
-        if(result) {
-            ec.utils.ajax(module, file, method, data, success, error);
-        }
-        else {
-            return;
-        }
-    });
-};

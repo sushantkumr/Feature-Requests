@@ -14,16 +14,23 @@ $(document).ready(function() {
         }
         self.confirmDelete = function(row) {
             data = {
-                feature_request_id: row["id"],
+                id: row["id"],
+                priority: row["client_priority"],
             };
-            ec.utils.deleteConfirmation('feature_requests', 'views', 'delete_request', data, function(response) {
-                if (!response.success) {
-                    ec.utils.errorHandler(response);
-                    return;
+
+            const message = 'Do you really want to delete this request?'
+            bootbox.confirm(message, function(result) {
+                if(result) {
+                    ec.utils.ajax('feature_requests', 'views', 'delete_request', data, function(response) {
+                        if (!response.success) {
+                            ec.utils.errorHandler(response);
+                            return;
+                        }
+                        self.featureRequests(response.data);
+                    });
                 }
-                self.featureRequests(response.data);
             });
-        } 
+        }
 
         self.getFeatureRequests();
 

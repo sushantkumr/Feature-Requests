@@ -124,8 +124,15 @@ def update_for_drag_drop(client, new_priorities):
     return get_feature_requests()
 
 
-def delete_request(feature_request_id):
+def delete_request(id, priority):
+    rows = (FeatureRequest.query
+            .filter(FeatureRequest.id != id)
+            .all())
+    for row in rows:
+        if row.client_priority > priority:
+            row.client_priority = int(row.client_priority) - 1
+            db.db_session.add(row)
     (FeatureRequest.query
-     .filter(FeatureRequest.id == feature_request_id).delete())
+     .filter(FeatureRequest.id == id).delete())
     db.db_session.flush()
     return get_feature_requests()
