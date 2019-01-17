@@ -105,7 +105,7 @@ ec.utils.deleteConfirmation = function(module, file, method, data, success, erro
             ec.utils.ajax(module, file, method, data, success, error);
         }
         else {
-            return false;
+            return;
         }
     });
 };
