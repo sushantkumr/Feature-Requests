@@ -35,6 +35,7 @@ def get_feature_requests():
 
 
 def get_client_list():
+    # TODO: Move this to database
     client = current_user.client
     if client == 'ALL':
         return [
@@ -76,7 +77,6 @@ def get_feature_request_details(id):
                   .filter(FeatureRequest.id == id)
                   .first())
     fr_details = utils.to_dict(fr_details)
-    # TODO: Store Client lists in a different table
     fr_details['clientList'] = get_client_list()
     return fr_details
 
@@ -95,7 +95,7 @@ def update_feature_requests(id, title, description, client, priority,
     row.target_date = datetime.strptime(target_date, '%Y-%m-%d')
     row.product_area = product_area
     db.db_session.add(row)
-    db.db_session.commit()  # To reflect the changes in the next block of code
+    db.db_session.flush()  # To reflect the changes in the next block of code
 
     # Update priority of other FRs if affected
     current_fr = (FeatureRequest.query
@@ -120,5 +120,12 @@ def update_for_drag_drop(client, new_priorities):
     for row in rows:
         row.client_priority = new_priorities[str(row.id)]
     db.db_session.add(row)
-    db.db_session.commit()
+    db.db_session.flush()
+    return get_feature_requests()
+
+
+def delete_request(feature_request_id):
+    (FeatureRequest.query
+     .filter(FeatureRequest.id == feature_request_id).delete())
+    db.db_session.flush()
     return get_feature_requests()

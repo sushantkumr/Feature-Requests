@@ -143,14 +143,6 @@ def new_feature_request():
     return render_template('new_feature_request.html')
 
 
-@app.route("/delete/<int:feature_request_id>", methods=['POST', 'GET'])
-@login_required
-def delete_request(feature_request_id):
-    FeatureRequest.query.filter(FeatureRequest.id == feature_request_id).delete()
-    db.db_session.commit()
-    return render_template('home.html')
-
-
 @app.route("/edit", methods=['POST', 'GET'])
 @login_required
 def edit_request():

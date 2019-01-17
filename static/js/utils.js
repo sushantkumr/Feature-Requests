@@ -8,7 +8,6 @@ ec.utils.get_ajax_url = function(module, file, method) {
 ec.utils.ajax = function(module, file, method, data, success, error) {
     success = success || console.log;
     error = error || function() {
-        // Tell the server what went wrong?
         console.log(arguments);
         ec.utils.bootboxError('An unexpected error occurred while processing your request. Please try again after some time.');
     };
@@ -97,4 +96,16 @@ ec.utils.getQueryStringValue = function(key) {
     key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&"); // escape RegEx meta chars
     var match = location.search.match(new RegExp("[?&]"+key+"=([^&]+)(&|$)"));
     return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+};
+
+ec.utils.deleteConfirmation = function(module, file, method, data, success, error) {
+    const message = 'Do you really want to delete this request?'
+    bootbox.confirm(message, function(result) {
+        if(result) {
+            ec.utils.ajax(module, file, method, data, success, error);
+        }
+        else {
+            return false;
+        }
+    });
 };

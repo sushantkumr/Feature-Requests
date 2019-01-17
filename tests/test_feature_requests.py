@@ -1,8 +1,12 @@
 # project/test_basic.py
 
-import unittest
-from server import app
-import json
+import sys
+import os
+sys.path.append(os.getcwd())
+
+import unittest # noqa
+from server import app # noqa
+import json # noqa
 
 
 class BasicTests(unittest.TestCase):

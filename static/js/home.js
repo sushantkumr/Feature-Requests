@@ -12,6 +12,19 @@ $(document).ready(function() {
                 self.featureRequests(response.data);
             });
         }
+        self.confirmDelete = function(row) {
+            data = {
+                feature_request_id: row["id"],
+            };
+            ec.utils.deleteConfirmation('feature_requests', 'views', 'delete_request', data, function(response) {
+                if (!response.success) {
+                    ec.utils.errorHandler(response);
+                    return;
+                }
+                self.featureRequests(response.data);
+            });
+        } 
+
         self.getFeatureRequests();
 
         this.updateOrder = function(arg) {
