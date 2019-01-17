@@ -7,7 +7,10 @@ App to create Feature Requests for Clients
 3. Initialize the database by executing `python3 lib/devops/init_db.py`
 4. Run the server by executing `python3 server.py` at the root level of the repo.
 5. Access the application at this URL: [http://0.0.0.0:5000](http://0.0.0.0:5000)
-6. To run the tests run `python3 tests_feature_requests.py`
+
+## Tests
+1. To run the unit tests run `python3 tests/test_unit_submit_feature_request.py`
+2. To run the integration tests run `python3 tests/test_integration_feature_requests.py`
 
 ### Additional Features
 1. Drag and drop option to reorder priorities.
