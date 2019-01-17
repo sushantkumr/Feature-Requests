@@ -1,22 +1,10 @@
 # project/test_basic.py
 
 import unittest
-
-import flask_login
-from lib.models import db
-from lib.core import config
-from flask import Flask
-
+from server import app, db
+import json
 
 TEST_DB = 'test.db'
-
-configuration = config.CONFIGS['TEST']
-
-app = Flask(__name__)
-
-app.secret_key = configuration['secret_key']
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
 
 
 class BasicTests(unittest.TestCase):
@@ -27,17 +15,46 @@ class BasicTests(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         app.config['DEBUG'] = False
         self.app = app.test_client()
-
-        # Disable sending emails during unit testing
         self.assertEqual(app.debug, False)
 
     # executed after each test
     def tearDown(self):
         pass
 
-    def test_main_page(self):
+    def signup(self, username, password, confirm, client):
+        return self.app.post(
+            '/signup',
+            data=json.dumps(dict(username=username, password=password, confirm=confirm, client=client)),
+            follow_redirects=True
+        )
+
+    def login(self, name, password):
+        return self.app.post(
+            '/login',
+            data=dict(name=name, password=password),
+            follow_redirects=True
+        )
+
+    def logout(self):
+        return self.app.get(
+            '/logout',
+            follow_redirects=True
+        )
+
+    def test_home_page(self):
+        response = self.app.get('/', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_page(self):
         response = self.app.get('/signup', follow_redirects=True)
-        print(response)
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_page(self):
+        response = self.app.get('/login', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_valid_user_signup(self):
+        response = self.signup('cesar', '123456789012', '123456789012', {"id": 3, "name": "Client C", "$order":8})
         self.assertEqual(response.status_code, 200)
 
 
