@@ -39,10 +39,9 @@ def get_client_list():
     client = current_user.client
     if client == 'ALL':
         return [
-                {'id': 0, 'name': 'ALL'},
-                {'id': 1, 'name': 'Client A'},
-                {'id': 2, 'name': 'Client B'},
-                {'id': 3, 'name': 'Client C'},
+                {'id': 0, 'name': 'Client A'},
+                {'id': 1, 'name': 'Client B'},
+                {'id': 2, 'name': 'Client C'},
                ]
     else:
         return [{'id': 0, 'name': client}]
