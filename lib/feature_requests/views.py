@@ -84,7 +84,6 @@ def get_feature_request_details(id):
 def update_feature_requests(id, title, description, client, priority,
                             target_date, product_area):
     # Update current row
-    import pudb; pudb.set_trace();
     client = client['name']
     row = (FeatureRequest.query
            .filter(FeatureRequest.id == id)
